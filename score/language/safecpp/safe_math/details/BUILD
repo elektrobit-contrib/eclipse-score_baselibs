@@ -10,7 +10,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//bazel:unit_tests.bzl", "cc_gtest_unit_test")
+load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
@@ -22,6 +22,7 @@ cc_library(
     visibility = ["@score-baselibs//score/language/safecpp/safe_math/details:__subpackages__"],
     deps = [
         "@score-baselibs//score/language/safecpp/safe_math:error",
+        "@score-baselibs//score/language/safecpp/safe_math/details/comparison",
         "@score-baselibs//score/result",
         "@score-baselibs//score/language/futurecpp",
     ],

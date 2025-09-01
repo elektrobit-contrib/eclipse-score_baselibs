@@ -49,9 +49,7 @@ TEST_F(NeutrinoImplFixture, ThreadCtlGetThreadNme)
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
 
     std::int32_t valid_cmd{_NTO_TCTL_NAME};
-    struct _thread_name thread_name
-    {
-    };
+    struct _thread_name thread_name{};
     thread_name.new_name_len = -1;
     void* data = &thread_name;
     const auto result = neutrino_.ThreadCtl(valid_cmd, data);
@@ -145,6 +143,34 @@ TEST_F(NeutrinoImplFixture, ChannelCreateFailure)
         neutrino_.ChannelCreate(static_cast<Neutrino::ChannelFlag>(std::numeric_limits<std::uint32_t>::max()));
     ASSERT_FALSE(result.has_value());
     EXPECT_EQ(errno, ENOTSUP);
+}
+
+TEST_F(NeutrinoImplFixture, ChannelDestroySuccess)
+{
+    RecordProperty("ParentRequirement", "SCR-46010294");
+    RecordProperty("ASIL", "B");
+    RecordProperty("Description", "Test Channel Destroy Success");
+    RecordProperty("TestingTechnique", "Interface test");
+    RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
+
+    const auto channel_id = neutrino_.ChannelCreate(Neutrino::ChannelFlag::kDisconnect);
+    ASSERT_TRUE(channel_id.has_value());
+
+    const auto destroy_result = neutrino_.ChannelDestroy(channel_id.value());
+    ASSERT_TRUE(destroy_result.has_value());
+}
+
+TEST_F(NeutrinoImplFixture, ChannelDestroyFailure)
+{
+    RecordProperty("ParentRequirement", "SCR-46010294");
+    RecordProperty("ASIL", "B");
+    RecordProperty("Description", "Test Channel Destroy Failure");
+    RecordProperty("TestingTechnique", "Interface test");
+    RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
+
+    const std::int32_t failed_channel_id = 0;
+    const auto destroy_result = neutrino_.ChannelDestroy(failed_channel_id);
+    ASSERT_FALSE(destroy_result.has_value());
 }
 
 TEST_F(NeutrinoImplFixture, ClockAdjustSuccess)

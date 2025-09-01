@@ -208,7 +208,7 @@ bool WillMessageFit(score::mw::log::detail::VerbosePayload& payload, T... messag
     return !payload.WillOverflow(size);
 }
 
-using ByteView = score::cpp::v1::span<const score::mw::log::detail::Byte>;
+using ByteView = score::cpp::span<const score::mw::log::detail::Byte>;
 
 template <typename T>
 ByteView ToByteView(const T& t)
@@ -569,7 +569,7 @@ AddArgumentResult DLTFormat::Log(VerbosePayload& payload, const LogRawBuffer dat
     const std::uint16_t length_cropped =
         (data_size > static_cast<std::size_t>(max_length)) ? max_length : static_cast<std::uint16_t>(data_size);
 
-    const LogRawBuffer data_cropped{data.data(), static_cast<long int>(length_cropped)};
+    const LogRawBuffer data_cropped{data.data(), length_cropped};
 
     return Store(payload, type_info, length_cropped, data_cropped);
 }

@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
-load("@score-baselibs//bazel:unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 LIB_JSON_VISIBILITY = ["//visibility:public"]
@@ -77,6 +77,7 @@ cc_library(
     visibility = LIB_JSON_VISIBILITY,
     deps = [
         ":interface",
+        "@score-baselibs//score/language/safecpp/safe_math",
         "@score-baselibs//score/json/internal/parser",
         "@score-baselibs//score/json/internal/writer/json_serialize",
     ],

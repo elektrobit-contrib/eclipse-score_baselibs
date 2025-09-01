@@ -35,7 +35,7 @@ class VajsonParser final : private amsr::json::v2::Parser
     /// \brief Constructs a data-tree from a JSON file
     /// \param file_path The JSON file to read
     /// \return Any as root of the tree, nullptr on error
-    static auto FromFile(const score::cpp::string_view file_path) -> score::Result<Any>;
+    static auto FromFile(const std::string_view file_path) -> score::Result<Any>;
 
     /// \brief Constructs a data-tree from a string containing JSON
     /// \param buffer The string_view containing JSON
@@ -59,7 +59,7 @@ class VajsonParser final : private amsr::json::v2::Parser
         {
             Any* current_node = hierarchy_.top();
             auto current_node_list = current_node->As<score::json::List>();
-            if (current_node_list.has_value() == true)
+            if (current_node_list.has_value())
             {
                 // False positive, we are not forwarding a value to other functions.
                 // coverity[autosar_cpp14_a18_9_2_violation : FALSE]

@@ -80,7 +80,7 @@ void InotifyInstanceImpl::InternalClose() noexcept
     }
 }
 
-score::cpp::expected<InotifyWatchDescriptor, Error> InotifyInstanceImpl::AddWatch(score::cpp::string_view pathname,
+score::cpp::expected<InotifyWatchDescriptor, Error> InotifyInstanceImpl::AddWatch(std::string_view pathname,
                                                                            Inotify::EventMask event_mask) noexcept
 {
     if (!(IsValid().has_value()))
@@ -91,7 +91,7 @@ score::cpp::expected<InotifyWatchDescriptor, Error> InotifyInstanceImpl::AddWatc
     {
         std::shared_lock<std::shared_timed_mutex> lock{inotify_file_descriptor_mutex_};
         const auto expected_watch_descriptor =
-            inotify_->inotify_add_watch(inotify_file_descriptor_, pathname.to_string().c_str(), event_mask);
+            inotify_->inotify_add_watch(inotify_file_descriptor_, pathname.data(), event_mask);
         if (!expected_watch_descriptor.has_value())
         {
             return score::cpp::make_unexpected(expected_watch_descriptor.error());
@@ -141,7 +141,7 @@ InotifyInstanceImpl::Read() noexcept
     {
         return score::cpp::make_unexpected(expected_event_buffer.error());
     }
-    const score::cpp::v1::span<std::uint8_t> event_buffer{expected_event_buffer.value()};
+    const score::cpp::span<std::uint8_t> event_buffer{expected_event_buffer.value()};
 
     score::cpp::static_vector<InotifyEvent, max_events> events{};
 

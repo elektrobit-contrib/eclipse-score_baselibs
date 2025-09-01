@@ -10,7 +10,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//bazel:unit_tests.bzl", "cc_gtest_unit_test")
+load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
@@ -21,6 +21,7 @@ cc_library(
     tags = ["FFI"],
     visibility = [
         "@score-baselibs//score/language/safecpp/safe_math:__pkg__",
+        "@score-baselibs//score/language/safecpp/safe_math/details:__pkg__",
         "@score-baselibs//score/language/safecpp/safe_math/details/absolute:__pkg__",
         "@score-baselibs//score/language/safecpp/safe_math/details/addition_subtraction:__pkg__",
         "@score-baselibs//score/language/safecpp/safe_math/details/cast:__pkg__",

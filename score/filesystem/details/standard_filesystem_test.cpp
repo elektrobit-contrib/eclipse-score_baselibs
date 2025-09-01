@@ -150,9 +150,7 @@ class FilesystemFixture : public ::testing::Test
 
     mode_t GetMode(const std::string& path)
     {
-        struct stat buffer
-        {
-        };
+        struct stat buffer{};
         ::stat(path.c_str(), &buffer);
 
         return buffer.st_mode;
@@ -1229,8 +1227,7 @@ class Remove : public FilesystemFixture
             .WillRepeatedly(Return(score::cpp::expected<DIR*, score::os::Error>{reinterpret_cast<DIR*>(1)}));
         EXPECT_CALL(*dirent_mock_, closedir(_)).WillRepeatedly(Return(score::cpp::expected_blank<os::Error>{}));
 
-        auto return_entries = [this](auto) -> score::cpp::expected<struct dirent*, score::os::Error>
-        {
+        auto return_entries = [this](auto) -> score::cpp::expected<struct dirent*, score::os::Error> {
             if (!filesystem_.empty())
             {
                 entries_.push_back({});
@@ -2041,7 +2038,7 @@ TEST_F(SymlinkStatusFixture, BufferTooSmall)
     const auto result = unit_.ReadSymlink("foo/bar");
 
     EXPECT_FALSE(result.has_value());
-    EXPECT_THAT(result.error().UserMessage().data(), HasSubstr("buffer is too small"));
+    EXPECT_THAT(result.error().UserMessage(), HasSubstr("buffer is too small"));
 }
 
 using CreateDirectorySymlinkFixture = FilesystemFixtureWithoutMocks;

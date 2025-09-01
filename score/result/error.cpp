@@ -25,12 +25,12 @@ bool score::result::operator!=(const score::result::Error& lhs, const score::res
 std::ostream& score::result::operator<<(std::ostream& out, const score::result::Error& value) noexcept
 {
     out << "Error ";
-    out << value.Message().data();
+    out << value.Message();
     out << " occurred";
     if (!value.UserMessage().empty())
     {
         out << " with message ";
-        out << value.UserMessage().data();
+        out << value.UserMessage();
     }
     return out;
 }

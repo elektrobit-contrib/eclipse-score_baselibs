@@ -10,17 +10,20 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+package(default_visibility = ["//visibility:public"])
 
-cc_gtest_unit_test(
-    name = "test_std_arithmetic_types",
-    srcs = ["test_std_arithmetic_types.cpp"],
+constraint_setting(name = "qnx_version")
+
+constraint_value(
+    name = "qnx7",
+    constraint_setting = ":qnx_version",
 )
 
-cc_unit_test_suites_for_host_and_qnx(
-    name = "unit_tests",
-    cc_unit_tests = [
-        ":test_std_arithmetic_types",
-    ],
-    visibility = ["@score-baselibs//score/language/safecpp:__pkg__"],
+constraint_value(
+    name = "qnx8",
+    constraint_setting = ":qnx_version",
 )
+
+exports_files([
+    "BUILD",
+])
