@@ -7,7 +7,7 @@ a runtime decision for the user which parallel context shall be used.
 
 The following prose text describes the [Structural View](./structural_view.uxf).
 
-![Structural View](broken_link_k/swh/ddad_score/concurrency/design/structural_view.uxf)
+![Structural View](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/swh/ddad_score/concurrency/design/structural_view.uxf)
 
 ## Tasks
 
@@ -38,11 +38,6 @@ cannot be stopped in between, he can ignore the argument. But then this is a spe
 of the current situation where people just forget about this case. The `score::cpp::stop_token` parameter
 will be provided by the `Executor` in the end. So the user does not need to care about a
 respective `score::cpp::stop_source`.
-
-The problem with our interface is that it includes templated function, which actually should
-be virtual. Since this is not possible, we have to fallback to perform static polymorphism
-applying the [Curiously recurring template pattern](https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern).
-Which causes the `DerivableExecutor` class.
 
 At the end the goal is to repackage the provided callable as `Task` in the `do_post` and respective
 `do_submit` function within the `Executor`. While then each implementation can decide how

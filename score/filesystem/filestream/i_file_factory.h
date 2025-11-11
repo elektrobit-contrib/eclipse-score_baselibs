@@ -29,10 +29,10 @@ namespace filesystem
 {
 
 using AtomicUpdateOwnershipFlags = std::uint32_t;
-const AtomicUpdateOwnershipFlags kUseTargetFileUID = 1U << 0;
-const AtomicUpdateOwnershipFlags kUseTargetFileGID = 1U << 1;
-const AtomicUpdateOwnershipFlags kUseCurrentProcessUID = 1U << 2;
-const AtomicUpdateOwnershipFlags kUseCurrentProcessGID = 1U << 3;
+const AtomicUpdateOwnershipFlags kUseTargetFileUID = 1U << 0U;
+const AtomicUpdateOwnershipFlags kUseTargetFileGID = 1U << 1U;
+const AtomicUpdateOwnershipFlags kUseCurrentProcessUID = 1U << 2U;
+const AtomicUpdateOwnershipFlags kUseCurrentProcessGID = 1U << 3U;
 
 /// @brief Abstracts the way of how to create input / out operations towards files
 ///
@@ -58,6 +58,9 @@ class IFileFactory : public os::ObjectSeam<IFileFactory>
     /// @param path Path to the file that is going to be updated.
     /// @param mode The open mode for the file. Currently, only writing and truncating are supported.
     /// @return On success, a pointer to a FileStream object, an error otherwise.
+    // as intended, we don't enforce users to specify ownership flags unless needed
+    // defaults for override and base function are the same thus static binding is safe
+    // NOLINTNEXTLINE(google-default-arguments) : see above
     [[nodiscard]] virtual Result<std::unique_ptr<FileStream>> AtomicUpdate(
         const Path& path,
         const std::ios_base::openmode mode,

@@ -10,8 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test", "cc_unit_test_suites_for_host_and_qnx")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "atomic_interface",
@@ -19,7 +20,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/memory/shared:__pkg__",
+        "@score_baselibs//score/memory/shared:__pkg__",
     ],
     deps = [],
 )
@@ -31,7 +32,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [":atomic_interface"],
 )
@@ -56,10 +57,10 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
-        "@score-baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -70,12 +71,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":types",
         ":user_permission",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -87,13 +88,13 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":i_shared_memory_resource",
         ":new_delete_delegate_resource",
         "@googletest//:gtest",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -104,12 +105,12 @@ cc_library(
     hdrs = ["shared_memory_resource_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":i_shared_memory_resource",
         "@googletest//:gtest",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -118,24 +119,27 @@ cc_library(
     srcs = ["shared_memory_resource.cpp"],
     hdrs = ["shared_memory_resource.h"],
     features = COMPILER_WARNING_FEATURES,
+    implementation_deps = [
+        "@score_baselibs//score/language/safecpp/string_view:null_termination_check",
+    ],
     tags = ["FFI"],
     deps = [
         ":i_shared_memory_resource",
         ":lock_file",
         ":pointer_arithmetic_util",
         ":types",
-        "@score-baselibs//score/language/safecpp/safe_math",
-        "@score-baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:sealedshm",
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
-        "@score-baselibs//score/os:errno_logging",
-        "@score-baselibs//score/os:fcntl",
-        "@score-baselibs//score/os:mman",
-        "@score-baselibs//score/os:stat",
-        "@score-baselibs//score/os:unistd",
-        "@score-baselibs//score/os/utils/acl",
-        "@score-baselibs//score/os/utils/interprocess:interprocess_mutex",
-        "@score-baselibs//score/mw/log:frontend",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/safecpp/safe_math",
+        "@score_baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:sealedshm",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
+        "@score_baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/os:errno_logging",
+        "@score_baselibs//score/os:fcntl",
+        "@score_baselibs//score/os:mman",
+        "@score_baselibs//score/os:stat",
+        "@score_baselibs//score/os:unistd",
+        "@score_baselibs//score/os/utils/acl",
+        "@score_baselibs//score/os/utils/interprocess:interprocess_mutex",
     ],
 )
 
@@ -148,8 +152,8 @@ cc_library(
     deps = [
         ":i_shared_memory_resource",
         ":types",
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
     ],
 )
 
@@ -160,13 +164,13 @@ cc_library(
     hdrs = ["shared_memory_factory_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":i_shared_memory_factory",
         ":types",
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
         "@googletest//:gtest",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
     ],
 )
 
@@ -180,12 +184,12 @@ cc_library(
         ":i_shared_memory_factory",
         ":shared_memory_resource",
         ":types",
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
-        "@score-baselibs//score/os:mman",
-        "@score-baselibs//score/os:unistd",
-        "@score-baselibs//score/os/utils/acl",
-        "@score-baselibs//score/mw/log:frontend",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper:typedmemory",
+        "@score_baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/os:mman",
+        "@score_baselibs//score/os:unistd",
+        "@score_baselibs//score/os/utils/acl",
     ],
 )
 
@@ -196,16 +200,16 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     implementation_deps = [
         "shared_memory_factory_impl",
-        "@score-baselibs//score/os:errno_logging",
-        "@score-baselibs//score/os:unistd",
-        "@score-baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/os:errno_logging",
+        "@score_baselibs//score/os:unistd",
     ],
     tags = ["FFI"],
     deps = [
         ":i_shared_memory_factory",
         ":i_shared_memory_resource",
         ":types",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -228,16 +232,16 @@ cc_library(
     hdrs = ["lock_file.h"],
     features = COMPILER_WARNING_FEATURES,
     implementation_deps = [
-        "@score-baselibs//score/os:fcntl",
-        "@score-baselibs//score/os:stat",
-        "@score-baselibs//score/os:unistd",
+        "@score_baselibs//score/os:fcntl",
+        "@score_baselibs//score/os:stat",
+        "@score_baselibs//score/os:unistd",
     ],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -248,9 +252,9 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
-    deps = ["@score-baselibs//score/language/futurecpp"],
+    deps = ["@score_baselibs//score/language/futurecpp"],
 )
 
 cc_library(
@@ -259,16 +263,16 @@ cc_library(
     hdrs = ["memory_region_map.h"],
     features = COMPILER_WARNING_FEATURES,
     implementation_deps = [
-        "@score-baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/mw/log:frontend",
     ],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":atomic_indirector",
         ":memory_region_bounds",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -279,7 +283,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     deps = [
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -291,18 +295,18 @@ cc_library(
     implementation_deps = [
         ":pointer_arithmetic_util",
         ":shared_memory_error",
-        "@score-baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/mw/log:frontend",
     ],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":managed_memory_resource",
         ":memory_region_bounds",
         ":memory_region_map",
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -315,12 +319,12 @@ cc_library(
         ":memory_region_bounds",
         ":memory_resource_registry",
         ":pointer_arithmetic_util",
-        "@score-baselibs//score/mw/log:frontend",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log:frontend",
     ],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
 )
 
@@ -335,15 +339,15 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":memory_region_bounds",
         ":memory_resource_registry",
         ":offset_ptr_bounds_check",
         ":pointer_arithmetic_util",
-        "@score-baselibs//score/language/safecpp/safe_math",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/safecpp/safe_math",
     ],
 )
 
@@ -358,16 +362,16 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     implementation_deps = [
         ":pointer_arithmetic_util",
-        "@score-baselibs//score/mw/log:frontend",
+        "@score_baselibs//score/mw/log:frontend",
     ],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":memory_region_map",
         ":memory_resource_registry",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -378,12 +382,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":memory_resource_proxy",
         ":offset_ptr",
-        "@score-baselibs//score/language/safecpp/safe_math",
+        "@score_baselibs//score/language/safecpp/safe_math",
     ],
 )
 
@@ -394,7 +398,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":polymorphic_offset_ptr_allocator",
@@ -414,7 +418,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":polymorphic_offset_ptr_allocator",
@@ -428,7 +432,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":polymorphic_offset_ptr_allocator",
@@ -471,17 +475,17 @@ cc_library(
     ],
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
-    visibility = ["@score-baselibs//score/memory/shared:__subpackages__"],
+    visibility = ["@score_baselibs//score/memory/shared:__subpackages__"],
     deps = [
         ":shared",
-        "@score-baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:sealedshm_mock",
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper/test:typedmemory_mock",
-        "@score-baselibs//score/os/mocklib:acl_mock",
-        "@score-baselibs//score/os/mocklib:fcntl_mock",
-        "@score-baselibs//score/os/mocklib:mman_mock",
-        "@score-baselibs//score/os/mocklib:stat_mock",
-        "@score-baselibs//score/os/mocklib:unistd_mock",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:sealedshm_mock",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper/test:typedmemory_mock",
+        "@score_baselibs//score/os/mocklib:acl_mock",
+        "@score_baselibs//score/os/mocklib:fcntl_mock",
+        "@score_baselibs//score/os/mocklib:mman_mock",
+        "@score_baselibs//score/os/mocklib:stat_mock",
+        "@score_baselibs//score/os/mocklib:unistd_mock",
     ],
 )
 
@@ -490,8 +494,8 @@ cc_library(
     hdrs = ["user_permission.h"],
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
-    visibility = ["@score-baselibs//score/memory/shared:__subpackages__"],
-    deps = ["@score-baselibs//score/os/utils/acl"],
+    visibility = ["@score_baselibs//score/memory/shared:__subpackages__"],
+    deps = ["@score_baselibs//score/os/utils/acl"],
 )
 
 cc_library(
@@ -500,8 +504,8 @@ cc_library(
     hdrs = ["new_delete_delegate_resource.h"],
     features = COMPILER_WARNING_FEATURES,
     implementation_deps = [
-        "@score-baselibs//score/language/safecpp/safe_math",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/language/safecpp/safe_math",
+        "@score_baselibs//score/mw/log:frontend",
     ],
     tags = ["FFI"],
     visibility = [
@@ -511,7 +515,7 @@ cc_library(
         ":pointer_arithmetic_util",
         ":shared",
         ":types",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -521,9 +525,9 @@ cc_library(
     hdrs = ["shared_memory_error.h"],
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
-    visibility = ["@score-baselibs//score/memory/shared:__pkg__"],
+    visibility = ["@score_baselibs//score/memory/shared:__pkg__"],
     deps = [
-        "@score-baselibs//score/result",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -542,7 +546,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":types",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -556,15 +560,15 @@ cc_unit_test(
         "-aborts_upon_exception",
     ],
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":pointer_arithmetic_util",
-        "@score-baselibs//score/language/safecpp/coverage_termination_handler",  # TODO: Remove when SubtractPointersBytes is no longer noexcept and we remove the last death test.
-        "@score-baselibs//score/mw/log",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
-        "@score-baselibs//score/language/futurecpp:futurecpp_test_support",
+        "@score_baselibs//score/language/futurecpp:futurecpp_test_support",
+        "@score_baselibs//score/language/safecpp/coverage_termination_handler",  # TODO: Remove when SubtractPointersBytes is no longer noexcept and we remove the last death test.
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -575,12 +579,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":shared_memory_factory",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -591,7 +595,7 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":memory_region_bounds",
@@ -603,7 +607,7 @@ cc_gtest_unit_test(
     srcs = ["atomic_indirector_test.cpp"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":atomic_indirector",
@@ -618,12 +622,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":lock_file",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -632,13 +636,13 @@ cc_gtest_unit_test(
     srcs = ["managed_memory_resource_test.cpp"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":managed_memory_resource",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -649,12 +653,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":map",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -665,13 +669,13 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":atomic_indirector_mock_binding",
         ":memory_region_map",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -682,12 +686,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":memory_resource_proxy",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -698,13 +702,13 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":memory_resource_registry",
         ":pointer_arithmetic_util",
         ":shared_memory_error",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -715,11 +719,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":new_delete_delegate_resource",
         ":shared_memory_test_resources",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -730,12 +735,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":polymorphic_offset_ptr_allocator",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -746,7 +751,7 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":shared_memory_error",
@@ -760,13 +765,13 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":pointer_arithmetic_util",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -777,13 +782,13 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":shared_memory_test_resources",
-        "@score-baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:sealedshm",
-        "@score-baselibs//score/os/utils/acl:mock",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:sealedshm",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
+        "@score_baselibs//score/os/utils/acl:mock",
     ],
 )
 
@@ -794,11 +799,11 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -809,14 +814,14 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":pointer_arithmetic_util",
         ":shared_memory_resource",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/os/utils/acl:mock",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
+        "@score_baselibs//score/os/utils/acl:mock",
     ],
 )
 
@@ -827,13 +832,13 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":pointer_arithmetic_util",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -844,13 +849,13 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":shared_memory_test_resources",
-        "@score-baselibs//score/os/utils/acl:mock",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
+        "@score_baselibs//score/os/utils/acl:mock",
     ],
 )
 
@@ -861,12 +866,12 @@ cc_gtest_unit_test(
     ],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":vector",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
     ],
 )
 
@@ -880,12 +885,23 @@ cc_gtest_unit_test(
         "@platforms//os:linux",
     ],
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
     deps = [
         ":fake_memory_resources",
         ":string",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
+    ],
+)
+
+# Separate test suite for string test as it should not be executed on qnx
+test_suite(
+    name = "unit_tests_host",
+    tests = [
+        ":string_test",
+    ],
+    visibility = [
+        "@score_baselibs//score/memory:__pkg__",
     ],
 )
 
@@ -911,16 +927,15 @@ cc_unit_test_suites_for_host_and_qnx(
         ":shared_memory_resource_create_test",
         ":shared_memory_resource_misc_test",
         ":shared_memory_resource_open_test",
-        ":string_test",
         ":vector_test",
     ],
     test_suites_from_sub_packages = [
-        "@score-baselibs//score/memory/shared/flock:unit_test_suite",
-        "@score-baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:unit_test_suite",
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper:unit_test_suite",
-        "@score-baselibs//score/memory/shared/test_offset_ptr:unit_test_suite",
+        "@score_baselibs//score/memory/shared/flock:unit_test_suite",
+        "@score_baselibs//score/memory/shared/sealedshm/sealedshm_wrapper:unit_test_suite",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper:unit_test_suite",
+        "@score_baselibs//score/memory/shared/test_offset_ptr:unit_test_suite",
     ],
     visibility = [
-        "@score-baselibs//score/memory:__pkg__",
+        "@score_baselibs//score/memory:__pkg__",
     ],
 )

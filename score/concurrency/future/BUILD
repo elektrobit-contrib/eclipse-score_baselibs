@@ -10,8 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "future",
@@ -38,14 +39,14 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
-        "@score-baselibs//score/language/safecpp/scoped_function:move_only_scoped_function",
-        "@score-baselibs//score/language/safecpp/scoped_function:scope",
-        "@score-baselibs//score/concurrency:interruptible_wait",
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/concurrency:interruptible_wait",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/safecpp/scoped_function:move_only_scoped_function",
+        "@score_baselibs//score/language/safecpp/scoped_function:scope",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -82,5 +83,5 @@ cc_unit_test_suites_for_host_and_qnx(
     cc_unit_tests = [
         ":unit_test",
     ],
-    visibility = ["@score-baselibs//score/concurrency:__pkg__"],
+    visibility = ["@score_baselibs//score/concurrency:__pkg__"],
 )

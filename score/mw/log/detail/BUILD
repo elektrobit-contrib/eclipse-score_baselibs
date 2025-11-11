@@ -10,7 +10,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 COMPILER_WARNING_FEATURES = [
     "treat_warnings_as_errors",
@@ -29,15 +30,15 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
     deps = [
         ":composite_recorder",
         ":empty_recorder",
         ":initialization_reporter",
         ":recorder_config",
-        "@score-baselibs//score/mw/log:recorder_interface",
-        "@score-baselibs//score/mw/log/configuration:configuration_parser",
+        "@score_baselibs//score/mw/log:recorder_interface",
+        "@score_baselibs//score/mw/log/configuration:configuration_parser",
     ],
     alwayslink = True,
 )
@@ -48,40 +49,40 @@ cc_library(
         "recorder_config.h",
     ],
     defines = select({
-        "@score-baselibs//score/mw/log/detail/flags:config_KConsole_Logging": ["KCONSOLE_LOGGING"],
+        "@score_baselibs//score/mw/log/detail/flags:config_KConsole_Logging": ["KCONSOLE_LOGGING"],
         "//conditions:default": [],
     }) + select({
-        "@score-baselibs//score/mw/log/detail/flags:config_KFile_Logging": ["KFILE_LOGGING"],
+        "@score_baselibs//score/mw/log/detail/flags:config_KFile_Logging": ["KFILE_LOGGING"],
         "//conditions:default": [],
     }) + select({
-        "@score-baselibs//score/mw/log/flags:Remote_Logging": ["KREMOTE_LOGGING"],
+        "@score_baselibs//score/mw/log/flags:Remote_Logging": ["KREMOTE_LOGGING"],
         "//conditions:default": [],
     }),
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
     deps = [
         ":empty_recorder_factory",
     ] + select({
         "@platforms//os:linux": [],
         "@platforms//os:qnx": [
-            "@score-baselibs//score/mw/log/detail/slog",
+            "@score_baselibs//score/mw/log/detail/slog",
         ],
     }) + select({
-        "@score-baselibs//score/mw/log/detail/flags:config_KConsole_Logging": [
-            "@score-baselibs//score/mw/log/detail/file_logging:console_recorder_factory",
-        ],
-        "//conditions:default": [],
-    }) + select({
-        "@score-baselibs//score/mw/log/detail/flags:config_KFile_Logging": [
-            "@score-baselibs//score/mw/log/detail/file_logging:file_recorder_factory",
+        "@score_baselibs//score/mw/log/detail/flags:config_KConsole_Logging": [
+            "@score_baselibs//score/mw/log/detail/file_logging:console_recorder_factory",
         ],
         "//conditions:default": [],
     }) + select({
-        "@score-baselibs//score/mw/log/flags:Remote_Logging": [
-            "@score-baselibs//score/mw/log/detail/data_router:remote_dlt_recorder_factory",
+        "@score_baselibs//score/mw/log/detail/flags:config_KFile_Logging": [
+            "@score_baselibs//score/mw/log/detail/file_logging:file_recorder_factory",
+        ],
+        "//conditions:default": [],
+    }) + select({
+        "@score_baselibs//score/mw/log/flags:Remote_Logging": [
+            "@score_baselibs//score/mw/log/detail/data_router:remote_dlt_recorder_factory",
         ],
         "//conditions:default": [],
     }),
@@ -95,12 +96,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/os:fcntl",
-        "@score-baselibs//score/mw/log/configuration",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log/configuration",
+        "@score_baselibs//score/os:fcntl",
     ],
 )
 
@@ -115,7 +116,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
     deps = [
         ":empty_recorder",
@@ -131,13 +132,13 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
-        "@score-baselibs//score/mw/log/detail/slog:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/slog:__pkg__",
     ],
     deps = [
         ":log_data_types",
-        "@score-baselibs//score/mw/log:recorder",
+        "@score_baselibs//score/mw/log:recorder",
     ],
 )
 
@@ -148,13 +149,13 @@ cc_library(
     hdrs = ["backend_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/mw/log:__pkg__",
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
-        "@score-baselibs//score/mw/log/detail:backend_interface",
         "@googletest//:gtest",
+        "@score_baselibs//score/mw/log/detail:backend_interface",
     ],
 )
 
@@ -169,11 +170,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/static_reflection_with_serialization/visitor",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/static_reflection_with_serialization/visitor",
     ],
 )
 
@@ -184,13 +185,13 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__pkg__",
-        "@score-baselibs//score/mw/log/configuration:__pkg__",
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log:__pkg__",
+        "@score_baselibs//score/mw/log/configuration:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
-        "@score-baselibs//score/result",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -204,8 +205,8 @@ cc_library(
     ],
     deps = [
         ":logging_identifier",
-        "@score-baselibs//score/static_reflection_with_serialization/visitor",
-        "@score-baselibs//score/mw/log:shared_types",
+        "@score_baselibs//score/mw/log:shared_types",
+        "@score_baselibs//score/static_reflection_with_serialization/visitor",
     ],
 )
 
@@ -216,12 +217,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
     ],
     deps = [
         ":logging_identifier",
-        "@score-baselibs//score/static_reflection_with_serialization/visitor",
-        "@score-baselibs//score/mw/log:shared_types",
+        "@score_baselibs//score/mw/log:shared_types",
+        "@score_baselibs//score/static_reflection_with_serialization/visitor",
     ],
 )
 
@@ -247,8 +248,8 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
         ":helper_functions",
@@ -269,11 +270,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
-        "@score-baselibs//score/mw/log:recorder",
+        "@score_baselibs//score/mw/log:recorder",
     ],
 )
 
@@ -287,11 +288,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -303,7 +304,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
 )
 
@@ -318,18 +319,18 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
         ":dlt_argument_counter",
         ":helper_functions",
         ":integer_representation",
         ":log_data_types",
-        "@score-baselibs//score/bitmanipulation",
-        "@score-baselibs//score/memory:string_literal",
-        "@score-baselibs//score/mw/log:shared_types",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/bitmanipulation",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/memory:string_literal",
+        "@score_baselibs//score/mw/log:shared_types",
     ],
 )
 
@@ -344,11 +345,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__pkg__",
-        "@score-baselibs//score/mw/log/configuration:__pkg__",
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
-        "@score-baselibs//score/mw/log/detail/slog:__pkg__",
+        "@score_baselibs//score/mw/log:__pkg__",
+        "@score_baselibs//score/mw/log/configuration:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log/detail/slog:__pkg__",
     ],
     deps = [
         ":types_and_errors",
@@ -366,13 +367,13 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__pkg__",
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
     ],
     deps = [
         ":initialization_reporter",
         ":types_and_errors",
-        "@score-baselibs//score/mw/log:recorder",
+        "@score_baselibs//score/mw/log:recorder",
     ],
 )
 
@@ -387,17 +388,17 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__pkg__",
-        "@score-baselibs//score/mw/log/detail/data_router:__pkg__",
-        "@score-baselibs//score/mw/log/detail/file_logging:__pkg__",
+        "@score_baselibs//score/mw/log:__pkg__",
+        "@score_baselibs//score/mw/log/detail/data_router:__pkg__",
+        "@score_baselibs//score/mw/log/detail/file_logging:__pkg__",
     ],
     deps = [
         ":log_data_types",
         ":log_entry",
         ":logging_identifier",
         ":types_and_errors",
-        "@score-baselibs//score/mw/log:recorder",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log:recorder",
     ],
 )
 
@@ -408,7 +409,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
 )
 
@@ -424,12 +425,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
     deps = [
         ":empty_recorder",
-        "@score-baselibs//score/mw/log:recorder_interface",
-        "@score-baselibs//score/mw/log/detail/file_logging:text_recorder",
+        "@score_baselibs//score/mw/log:recorder_interface",
+        "@score_baselibs//score/mw/log/detail/file_logging:text_recorder",
     ],
     alwayslink = True,
 )
@@ -444,9 +445,9 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
-    deps = ["@score-baselibs//score/language/futurecpp"],
+    deps = ["@score_baselibs//score/language/futurecpp"],
 )
 
 cc_test(
@@ -479,8 +480,8 @@ cc_test(
     tags = ["unit"],
     deps = [
         ":composite_recorder",
-        "@score-baselibs//score/mw/log:recorder_mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:recorder_mock",
     ],
 )
 
@@ -599,8 +600,8 @@ cc_test(
     tags = ["unit"],
     deps = [
         ":log_data_types",
-        "@score-baselibs//score/quality/compiler_warnings",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/quality/compiler_warnings",
     ],
 )
 
@@ -651,9 +652,9 @@ cc_test(
     tags = ["unit"],
     deps = [
         ":recorder_factory",
-        "@score-baselibs//score/os/mocklib:fcntl_mock",
-        "@score-baselibs//score/mw/log/configuration:target_config_reader_mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log/configuration:target_config_reader_mock",
+        "@score_baselibs//score/os/mocklib:fcntl_mock",
     ],
 )
 
@@ -687,8 +688,8 @@ cc_test(
     tags = ["unit"],
     deps = [
         ":statistics_reporter",
-        "@score-baselibs//score/mw/log:recorder_mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:recorder_mock",
     ],
 )
 
@@ -718,8 +719,8 @@ cc_test(
     ],
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/mw/log/detail:recorder_factory_stub",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log/detail:recorder_factory_stub",
     ],
 )
 
@@ -736,8 +737,8 @@ cc_test(
     tags = ["unit"],
     deps = [
         ":thread_local_guard",
-        "@score-baselibs//score/concurrency:notification",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/concurrency:notification",
     ],
 )
 
@@ -762,13 +763,13 @@ cc_unit_test_suites_for_host_and_qnx(
         ":verbose_payload_test",
     ],
     test_suites_from_sub_packages = [
-        "@score-baselibs//score/mw/log/detail/file_logging:unit_tests",
-        #"@score-baselibs//score/mw/log/detail/data_router:unit_tests",
-        "@score-baselibs//score/mw/log/detail/slog:unit_tests",
-        #"@score-baselibs//score/mw/log/detail/wait_free_producer_queue:unit_tests",
-        "@score-baselibs//score/mw/log/detail/wait_free_stack:unit_tests",
+        "@score_baselibs//score/mw/log/detail/file_logging:unit_tests",
+        #"@score_baselibs//score/mw/log/detail/data_router:unit_tests",
+        "@score_baselibs//score/mw/log/detail/slog:unit_tests",
+        #"@score_baselibs//score/mw/log/detail/wait_free_producer_queue:unit_tests",
+        "@score_baselibs//score/mw/log/detail/wait_free_stack:unit_tests",
     ],
     visibility = [
-        "@score-baselibs//score/mw/log:__pkg__",
+        "@score_baselibs//score/mw/log:__pkg__",
     ],
 )

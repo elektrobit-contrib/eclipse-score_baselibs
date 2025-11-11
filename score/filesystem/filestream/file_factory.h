@@ -17,8 +17,19 @@
 
 #include "score/os/stat.h"
 
+#include <cstdint>
+#include <string>
+#include <string_view>
+
 namespace score::filesystem
 {
+
+namespace details
+{
+std::string ComposeTempFilename(std::string_view original_filename,
+                                std::size_t threa_id_hash,
+                                std::uint64_t timestamp) noexcept;
+}
 
 /// @brief Production implementation of IFileFactory. Will create actual file streams.
 class FileFactory final : public IFileFactory
@@ -33,6 +44,9 @@ class FileFactory final : public IFileFactory
 
     Result<std::unique_ptr<std::iostream>> Open(const Path&, const std::ios_base::openmode mode) override;
 
+    // as intended, we don't enforce users to specify ownership flags unless needed
+    // defaults for override and base function are the same thus static binding is safe
+    // NOLINTNEXTLINE(google-default-arguments) : see above
     Result<std::unique_ptr<FileStream>> AtomicUpdate(
         const Path& path,
         const std::ios_base::openmode mode,

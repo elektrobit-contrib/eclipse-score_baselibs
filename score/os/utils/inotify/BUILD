@@ -10,7 +10,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "inotify_event",
@@ -19,12 +20,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":inotify_watch_descriptor",
-        "@score-baselibs//score/os:inotify",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/os:inotify",
     ],
 )
 
@@ -35,12 +36,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":inotify_event",
         ":inotify_watch_descriptor",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -49,21 +50,24 @@ cc_library(
     srcs = ["inotify_instance_impl.cpp"],
     hdrs = ["inotify_instance_impl.h"],
     features = COMPILER_WARNING_FEATURES,
+    implementation_deps = [
+        "@score_baselibs//score/language/safecpp/string_view:null_termination_check",
+    ],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":inotify_event",
         ":inotify_instance",
         ":inotify_watch_descriptor",
-        "@score-baselibs//score/os:errno",
-        "@score-baselibs//score/os:fcntl",
-        "@score-baselibs//score/os:inotify",
-        "@score-baselibs//score/os:sys_poll",
-        "@score-baselibs//score/os:unistd",
-        "@score-baselibs//score/os/utils:abortable_blocking_reader",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/os:errno",
+        "@score_baselibs//score/os:fcntl",
+        "@score_baselibs//score/os:inotify",
+        "@score_baselibs//score/os:sys_poll",
+        "@score_baselibs//score/os:unistd",
+        "@score_baselibs//score/os/utils:abortable_blocking_reader",
     ],
 )
 
@@ -74,7 +78,7 @@ cc_library(
     hdrs = ["inotify_instance_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":inotify_instance",
@@ -89,7 +93,7 @@ cc_library(
     hdrs = ["inotify_instance_facade.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":inotify_instance",
@@ -105,7 +109,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
 )
 
@@ -122,15 +126,21 @@ cc_test(
     tags = [
         "unit",
     ],
+    target_compatible_with = select({
+        "@platforms//os:qnx": [
+            "//bazel/platforms/qnx_version:qnx7",  # TODO: Ticket-214211 QNX8 incompatible
+        ],
+        "//conditions:default": [],
+    }),
     visibility = [
-        "@score-baselibs//score/os/utils/test:__pkg__",
+        "@score_baselibs//score/os/utils/test:__pkg__",
     ],
     deps = [
         ":inotify_instance_impl",
-        "@score-baselibs//score/os/mocklib:fcntl_mock",
-        "@score-baselibs//score/os/mocklib:inotify_mock",
-        "@score-baselibs//score/os/mocklib:sys_poll_mock",
-        "@score-baselibs//score/os/mocklib:unistd_mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/mocklib:fcntl_mock",
+        "@score_baselibs//score/os/mocklib:inotify_mock",
+        "@score_baselibs//score/os/mocklib:sys_poll_mock",
+        "@score_baselibs//score/os/mocklib:unistd_mock",
     ],
 )

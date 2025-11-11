@@ -10,18 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
-cc_library(
-    name = "time_conversion",
-    srcs = ["time_conversion.cpp"],
-    hdrs = ["time_conversion.h"],
-    features = COMPILER_WARNING_FEATURES,
-    visibility = [
-        "@score-baselibs//score/os/utils:__subpackages__",
-    ],
-)
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "pimpl_ptr",
@@ -29,7 +20,7 @@ cc_library(
     hdrs = ["pimpl_ptr.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/os/utils:__subpackages__",
+        "@score_baselibs//score/os/utils:__subpackages__",
     ],
 )
 
@@ -39,7 +30,7 @@ cc_library(
     hdrs = ["string_hash.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/os/utils:__subpackages__",
+        "@score_baselibs//score/os/utils:__subpackages__",
     ],
 )
 
@@ -59,9 +50,41 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
-    deps = ["@score-baselibs//score/language/futurecpp"],
+    deps = ["@score_baselibs//score/language/futurecpp"],
+)
+
+cc_library(
+    name = "base64",
+    srcs = ["base64.cpp"],
+    hdrs = ["base64.h"],
+    strip_include_prefix = ".",
+    tags = ["FFI"],
+    visibility = [
+        "//visibility:public",  # platform_only
+    ],
+    deps = [
+        "@score_baselibs//score/language/futurecpp",
+    ],
+)
+
+cc_test(
+    name = "base64_unit_test",
+    srcs = [
+        "base64_test.cpp",
+    ],
+    features = [
+        "treat_warnings_as_errors",
+        "strict_warnings",
+        "additional_warnings",
+    ],
+    tags = ["unit"],
+    visibility = ["@score_baselibs//score/utils:__pkg__"],
+    deps = [
+        ":base64",
+        "@googletest//:gtest_main",
+    ],
 )
 
 cc_gtest_unit_test(
@@ -69,13 +92,6 @@ cc_gtest_unit_test(
     srcs = ["pimpl_ptr_test.cpp"],
     features = COMPILER_WARNING_FEATURES,
     deps = [":pimpl_ptr"],
-)
-
-cc_gtest_unit_test(
-    name = "time_conversion_test",
-    srcs = ["time_conversion.cpp"],
-    features = COMPILER_WARNING_FEATURES,
-    deps = [":time_conversion"],
 )
 
 cc_gtest_unit_test(
@@ -95,8 +111,8 @@ cc_gtest_unit_test(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_test_suite",
     cc_unit_tests = [
+        ":base64_unit_test",
         ":pimpl_ptr_test",
-        ":time_conversion_test",
         ":payloadvalidation_test",
         ":scoped_operation_test",
     ],

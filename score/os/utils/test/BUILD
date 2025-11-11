@@ -10,8 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
@@ -29,11 +30,11 @@ cc_unit_test_suites_for_host_and_qnx(
         ":spinlock_test",
         ":tcp_keep_alive_test",
         ":thread_test",
-        "@score-baselibs//score/os/utils/acl:unit_test",
-        "@score-baselibs//score/os/utils/inotify:unit_test",
+        "@score_baselibs//score/os/utils/acl:unit_test",
+        "@score_baselibs//score/os/utils/inotify:unit_test",
     ],
     test_suites_from_sub_packages = [
-        "@score-baselibs//score/os/utils/interprocess:unit_tests",
+        "@score_baselibs//score/os/utils/interprocess:unit_tests",
     ],
     visibility = ["//platform/aas/lib:__pkg__"],
 )
@@ -48,15 +49,15 @@ cc_test(
     ],
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/language/safecpp/coverage_termination_handler",
-        "@score-baselibs//score/os:fcntl",
-        "@score-baselibs//score/os:sys_poll",
-        "@score-baselibs//score/os:unistd",
-        "@score-baselibs//score/os/mocklib:fcntl_mock",
-        "@score-baselibs//score/os/mocklib:sys_poll_mock",
-        "@score-baselibs//score/os/mocklib:unistd_mock",
-        "@score-baselibs//score/os/utils:abortable_blocking_reader",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/language/safecpp/coverage_termination_handler",
+        "@score_baselibs//score/os:fcntl",
+        "@score_baselibs//score/os:sys_poll",
+        "@score_baselibs//score/os:unistd",
+        "@score_baselibs//score/os/mocklib:fcntl_mock",
+        "@score_baselibs//score/os/mocklib:sys_poll_mock",
+        "@score_baselibs//score/os/mocklib:unistd_mock",
+        "@score_baselibs//score/os/utils:abortable_blocking_reader",
     ],
 )
 
@@ -68,9 +69,10 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/mocklib:socket_mock",
-        "@score-baselibs//score/os/utils:tcp_keep_alive",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
+        "@score_baselibs//score/os/mocklib:socket_mock",
+        "@score_baselibs//score/os/utils:tcp_keep_alive",
     ],
 )
 
@@ -82,8 +84,8 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/utils:mqueue",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/utils:mqueue",
     ],
 )
 
@@ -95,10 +97,10 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/mocklib:mqueue_mock",
-        "@score-baselibs//score/os/mocklib:stat_mock",
-        "@score-baselibs//score/os/utils:mqueue",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/mocklib:mqueue_mock",
+        "@score_baselibs//score/os/mocklib:stat_mock",
+        "@score_baselibs//score/os/utils:mqueue",
     ],
 )
 
@@ -108,9 +110,9 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/utils:semaphore",
-        "@score-baselibs//score/os/utils/test/lib:random_string_test_lib",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/utils:semaphore",
+        "@score_baselibs//score/os/utils/test/lib:random_string_test_lib",
     ],
 )
 
@@ -120,9 +122,9 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/language/safecpp/coverage_termination_handler",
-        "@score-baselibs//score/os/utils:signal",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/language/safecpp/coverage_termination_handler",
+        "@score_baselibs//score/os/utils:signal",
     ],
 )
 
@@ -132,8 +134,9 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/utils:thread",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:backend_stub_testutil",
+        "@score_baselibs//score/os/utils:thread",
     ],
 )
 
@@ -143,8 +146,8 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/utils/interprocess:interprocess_mutex",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/utils/interprocess:interprocess_mutex",
     ],
 )
 
@@ -154,8 +157,8 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/utils:high_resolution_steady_clock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/utils:high_resolution_steady_clock",
     ],
 )
 
@@ -165,8 +168,8 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
-        "@score-baselibs//score/os/utils:spinlock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/utils:spinlock",
     ],
 )
 
@@ -178,9 +181,9 @@ cc_test(
         "unit",
     ],
     deps = [
-        "@score-baselibs//score/os/mocklib:unistd_mock",
-        "@score-baselibs//score/os/utils:path",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/mocklib:unistd_mock",
+        "@score_baselibs//score/os/utils:path",
     ],
 )
 
@@ -192,9 +195,9 @@ cc_test(
         "unit",
     ],
     deps = [
-        "@score-baselibs//score/os/mocklib:uname_mock",
-        "@score-baselibs//score/os/utils:detect_os",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/mocklib:uname_mock",
+        "@score_baselibs//score/os/utils:detect_os",
     ],
 )
 
@@ -203,14 +206,14 @@ cc_test(
     srcs = ["machine_test.cpp"],
     features = COMPILER_WARNING_FEATURES,
     local_defines = select({
-        "@score-baselibs//bazel/settings/qemu:on_qemu": ["MACHINE_QEMU"],
+        "@score_baselibs//bazel/settings/qemu:on_qemu": ["MACHINE_QEMU"],
         "//conditions:default": [],
     }),
     tags = [
         "unit",
     ],
     deps = [
-        "@score-baselibs//score/os/utils:machine",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/utils:machine",
     ],
 )

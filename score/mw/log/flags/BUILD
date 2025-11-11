@@ -10,6 +10,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
+
 load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
 
 bool_flag(
@@ -23,6 +24,6 @@ config_setting(
         ":KRemote_Logging": "True",
     },
     visibility = [
-        "@score-baselibs//score/mw/log:__subpackages__",
+        "@score_baselibs//score/mw/log:__subpackages__",
     ],
 )

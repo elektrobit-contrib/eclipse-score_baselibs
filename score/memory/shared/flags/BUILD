@@ -10,6 +10,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
+
 load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
 
 bool_flag(
@@ -23,6 +24,6 @@ config_setting(
         ":use_typedshmd": "True",
     },
     visibility = [
-        "@score-baselibs//score/memory/shared/typedshm/typedshm_wrapper:__subpackages__",
+        "@score_baselibs//score/memory/shared/typedshm/typedshm_wrapper:__subpackages__",
     ],
 )

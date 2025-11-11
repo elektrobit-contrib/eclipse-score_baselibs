@@ -13,6 +13,7 @@
 #include "score/filesystem/path.h"
 
 #include <gtest/gtest.h>
+#include <memory>
 
 namespace score
 {
@@ -176,6 +177,18 @@ TEST(Path, AppendString)
 
     // When appending a string
     unit /= "/bar";
+
+    // Then it is treated as path
+    EXPECT_EQ(unit.Native(), "/bar");
+}
+
+TEST(Path, AppendStringViewPointingToStringLiteral)
+{
+    // Given a path
+    Path unit{"/foo"};
+
+    // When appending a string view pointing to a string literal
+    unit /= std::string_view{"/bar"};
 
     // Then it is treated as path
     EXPECT_EQ(unit.Native(), "/bar");
@@ -945,7 +958,7 @@ TEST(Path, CopyOperator_SelfAssignment)
 {
     Path path{"foo/bar.txt"};
 
-    path = path;
+    path = *std::addressof(path);
 
     EXPECT_STREQ(path.CStr(), "foo/bar.txt");
 }
@@ -965,7 +978,7 @@ TEST(PathIterator, CopyOperator_SelfAssignment)
     Path path{"foo/bar.txt"};
     Path::iterator iterator = path.begin();
 
-    iterator = iterator;
+    iterator = *std::addressof(iterator);
 
     ASSERT_EQ(iterator, path.begin());
 }

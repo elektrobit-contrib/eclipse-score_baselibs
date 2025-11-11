@@ -10,6 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
+
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
 cc_library(
     name = "generic_trace_api_types",
     srcs = [
@@ -18,19 +21,15 @@ cc_library(
     hdrs = [
         "types.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/analysis/tracing:__subpackages__",
+        "@score_baselibs//score/analysis/tracing:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/language/safecpp/scoped_function:move_only_scoped_function",
-        "@score-baselibs//score/memory/shared",
-        "@score-baselibs//score/result",
+        "@score_baselibs//score/language/safecpp/scoped_function:move_only_scoped_function",
+        "@score_baselibs//score/memory/shared",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -38,14 +37,10 @@ cc_library(
     name = "shared_memory_location",
     srcs = ["shared_memory_location.cpp"],
     hdrs = ["shared_memory_location.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/analysis/tracing:__subpackages__",
+        "@score_baselibs//score/analysis/tracing:__subpackages__",
     ],
     deps = [
         ":generic_trace_api_types",
@@ -56,20 +51,16 @@ cc_library(
     name = "shared_memory_location_helpers",
     srcs = ["shared_memory_location_helpers.cpp"],
     hdrs = ["shared_memory_location_helpers.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/analysis/tracing:__subpackages__",
+        "@score_baselibs//score/analysis/tracing:__subpackages__",
     ],
     deps = [
         ":generic_trace_api_types",
         ":shared_memory_chunk",
         ":shared_memory_location",
-        "@score-baselibs//score/analysis/tracing/library/generic_trace_api/error_code",
+        "@score_baselibs//score/analysis/tracing/generic_trace_library/interface_types/error_code",
     ],
 )
 
@@ -77,14 +68,10 @@ cc_library(
     name = "shared_memory_chunk",
     srcs = ["shared_memory_chunk.cpp"],
     hdrs = ["shared_memory_chunk.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-baselibs//score/analysis/tracing:__subpackages__",
+        "@score_baselibs//score/analysis/tracing:__subpackages__",
     ],
     deps = [
         ":generic_trace_api_types",

@@ -20,6 +20,7 @@
 #include "score/os/unistd.h"
 
 #include <score/assert.hpp>
+#include <score/utility.hpp>
 
 #include <chrono>
 #include <iomanip>
@@ -28,16 +29,33 @@
 
 namespace score::filesystem
 {
+namespace details
+{
+namespace
+{
+constexpr std::int32_t kTIDDigitsLength = 6;
+constexpr std::uint32_t kTIDDigitsCropMask = 1'000'000U;
+constexpr std::int32_t kSystemTicksDigitsLength = 8;
+constexpr std::uint32_t kSystemTicksDigitsCropMask = 100'000'000U;
+
+}  // namespace
+std::string ComposeTempFilename(std::string_view original_filename,
+                                std::size_t threa_id_hash,
+                                std::uint64_t timestamp) noexcept
+{
+    std::stringstream final_filename;
+    final_filename << "." << original_filename << "-" << std::setw(kTIDDigitsLength) << std::setfill('0')
+                   << (threa_id_hash % kTIDDigitsCropMask) << "-" << std::setw(kSystemTicksDigitsLength)
+                   << std::setfill('0') << (timestamp % kSystemTicksDigitsCropMask);
+    return final_filename.str();
+}
+}  // namespace details
 namespace
 {
 
 constexpr os::Stat::Mode kDefaultMode = os::Stat::Mode::kReadUser | os::Stat::Mode::kWriteUser |
                                         os::Stat::Mode::kReadGroup | os::Stat::Mode::kWriteGroup |
                                         os::Stat::Mode::kReadOthers | os::Stat::Mode::kWriteOthers;
-constexpr uint32_t kTIDDigitsLength = 6U;
-constexpr uint32_t kTIDDigitsCropMask = 1000000U;
-constexpr uint32_t kSystemTicksDigitsLength = 8U;
-constexpr uint32_t kSystemTicksDigitsCropMask = 100000000U;
 
 using OpenFlags = os::Fcntl::Open;
 
@@ -84,11 +102,7 @@ std::string ComposeTempFilename(std::string original_filename) noexcept
     const auto now = std::chrono::steady_clock::now();
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch());
     const auto ticks = static_cast<uint64_t>(duration.count());
-    std::stringstream final_filename;
-    final_filename << "." << original_filename << "-" << std::setw(kTIDDigitsLength) << std::setfill('0')
-                   << (tid % kTIDDigitsCropMask) << "-" << std::setw(kSystemTicksDigitsLength) << std::setfill('0')
-                   << (ticks % kSystemTicksDigitsCropMask);
-    return final_filename.str();
+    return details::ComposeTempFilename(original_filename, tid, ticks);
 }
 
 // Supression: -1 is a value to indicate to the system that we don't intend to change the user id (Linux and QNX
@@ -179,6 +193,9 @@ Result<std::unique_ptr<std::iostream>> FileFactory::Open(const Path& path, const
     });
 }
 
+// as intended, we don't enforce users to specify ownership flags unless needed
+// defaults for override and base function are the same thus static binding is safe
+// NOLINTNEXTLINE(google-default-arguments) : see above
 Result<std::unique_ptr<FileStream>> FileFactory::AtomicUpdate(const Path& path,
                                                               const std::ios_base::openmode mode,
                                                               const AtomicUpdateOwnershipFlags ownership_flag)
@@ -211,25 +228,28 @@ Result<std::unique_ptr<FileStream>> FileFactory::AtomicUpdate(const Path& path,
         if (metadata.has_value())
         {
             uid_t uid = std::get<1>(metadata.value());
-            if ((ownership_flag & kUseCurrentProcessUID) == kUseCurrentProcessUID || uid == getuid())
+            if (((ownership_flag & kUseCurrentProcessUID) == kUseCurrentProcessUID) || (uid == getuid()))
             {
                 uid = kDoNotChangeUID;
             }
 
             gid_t gid = std::get<2>(metadata.value());
-            if ((ownership_flag & kUseCurrentProcessGID) == kUseCurrentProcessGID || gid == getgid())
+            if (((ownership_flag & kUseCurrentProcessGID) == kUseCurrentProcessGID) || (gid == getgid()))
             {
                 gid = kDoNotChangeGID;
             }
 
-            if (uid != kDoNotChangeUID || gid != kDoNotChangeGID)
+            if ((uid != kDoNotChangeUID) || (gid != kDoNotChangeGID))
             {
                 auto ownership_adjustment = os::Unistd::instance().chown(temp_path.CStr(), uid, gid);
                 if (!ownership_adjustment.has_value())
                 {
-                    close(*file_handle);
-                    unlink(temp_path.CStr());
-                    remove(temp_path.CStr());
+                    // If close or unlink fails, there is not much we can do. Returning a different error would hide the
+                    // original issue that permissions could not be set.
+                    // We could log an error but this library is currently designed without logging. Introduce logging
+                    // only for that does not seem worth it.
+                    score::cpp::ignore = os::Unistd::instance().close(*file_handle);
+                    score::cpp::ignore = os::Unistd::instance().unlink(temp_path.CStr());
                     return MakeUnexpected(ErrorCode::kCouldNotSetPermissions);
                 }
             }

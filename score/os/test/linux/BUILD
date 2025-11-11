@@ -10,7 +10,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 test_suite(
     name = "unit_tests_linux",
@@ -30,9 +31,9 @@ cc_test(
     ],
     target_compatible_with = ["@platforms//os:linux"],
     deps = [
-        "@score-baselibs//score/os/linux",
-        "@score-baselibs//score/os/linux:linux_header",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os/linux",
+        "@score_baselibs//score/os/linux:linux_header",
     ],
 )
 
@@ -47,7 +48,7 @@ cc_test(
     ],
     target_compatible_with = ["@platforms//os:linux"],
     deps = [
-        "@score-baselibs//score/os:pthread",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/os:pthread",
     ],
 )

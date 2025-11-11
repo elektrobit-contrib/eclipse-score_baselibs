@@ -36,7 +36,8 @@ cc_library(
         "console_logging_environment.h",
     ],
     deps = [
-        "@score-baselibs//score/mw/log",
         "@googletest//:gtest",
+        "@score_baselibs//score/mw/log",
+        "@score_baselibs//score/mw/log/detail/wait_free_stack",
     ],
 )

@@ -10,8 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "json_builder",
@@ -19,10 +20,10 @@ cc_library(
     hdrs = ["json_builder.h"],
     tags = ["FFI"],
     deps = [
-        "@score-baselibs//score/json/internal/model",
-        "@score-baselibs//score/result",
         "@nlohmann_json//:json",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/json/internal/model",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -32,12 +33,12 @@ cc_library(
     hdrs = ["nlohmann_parser.h"],
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
-    visibility = ["@score-baselibs//score/json:__subpackages__"],
+    visibility = ["@score_baselibs//score/json:__subpackages__"],
     deps = [
         ":json_builder",
-        "@score-baselibs//score/json/internal/model",
-        "@score-baselibs//score/result",
         "@nlohmann_json//:json",
+        "@score_baselibs//score/json/internal/model",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -48,12 +49,12 @@ cc_test(
     local_defines = ["NLOHMANN"],
     tags = ["unit"],
     visibility = [
-        "@score-baselibs//score/json:__subpackages__",
+        "@score_baselibs//score/json:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/json/internal/parser:parser_test_suite",
-        "@score-baselibs//score/json/internal/parser/nlohmann:nlohmann_parser",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/json/internal/parser:parser_test_suite",
+        "@score_baselibs//score/json/internal/parser/nlohmann:nlohmann_parser",
     ],
 )
 
@@ -64,14 +65,14 @@ cc_test(
     local_defines = ["NLOHMANN"],
     tags = ["unit"],
     visibility = [
-        "@score-baselibs//score/json:__subpackages__",
+        "@score_baselibs//score/json:__subpackages__",
     ],
     deps = [
         ":nlohmann_parser",
-        "@score-baselibs//score/language/safecpp/coverage_termination_handler",
-        "@score-baselibs//score/json",
-        "@score-baselibs//score/json/internal/parser:number_parser_test_suite",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/json",
+        "@score_baselibs//score/json/internal/parser:number_parser_test_suite",
+        "@score_baselibs//score/language/safecpp/coverage_termination_handler",
     ],
 )
 
@@ -82,6 +83,6 @@ cc_unit_test_suites_for_host_and_qnx(
         ":number_parser_test",
     ],
     visibility = [
-        "@score-baselibs//score/json/internal/parser:__pkg__",
+        "@score_baselibs//score/json/internal/parser:__pkg__",
     ],
 )

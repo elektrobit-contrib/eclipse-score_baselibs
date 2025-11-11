@@ -10,6 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
+
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
 cc_library(
     name = "flexible_circular_allocator",
     srcs = [
@@ -20,20 +23,16 @@ cc_library(
         "custom_polymorphic_offset_ptr_allocator.h",
         "flexible_circular_allocator.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
         "flexible_circular_allocator_interface",
-        "@score-baselibs//score/analysis/tracing/common/interface_types:generic_trace_api_types",
-        "@score-baselibs//score/analysis/tracing/library/generic_trace_api/error_code",
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/analysis/tracing/common/interface_types:generic_trace_api_types",
+        "@score_baselibs//score/analysis/tracing/generic_trace_library/interface_types/error_code",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -48,21 +47,17 @@ cc_library(
         "lockless_flexible_circular_allocator.h",
         "lockless_flexible_circular_allocator_types.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
         "flexible_circular_allocator_interface",
-        "@score-baselibs//score/analysis/tracing/common/interface_types:generic_trace_api_types",
-        "@score-baselibs//score/analysis/tracing/library/generic_trace_api/error_code",
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/analysis/tracing/common/interface_types:generic_trace_api_types",
+        "@score_baselibs//score/analysis/tracing/generic_trace_library/interface_types/error_code",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -74,19 +69,15 @@ cc_library(
     hdrs = [
         "flexible_circular_allocator_interface.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/analysis/tracing/common/interface_types:generic_trace_api_types",
-        "@score-baselibs//score/memory/shared:types",
-        "@score-baselibs//score/mw/log",
+        "@score_baselibs//score/analysis/tracing/common/interface_types:generic_trace_api_types",
+        "@score_baselibs//score/memory/shared:types",
+        "@score_baselibs//score/mw/log",
     ],
 )
 
@@ -95,13 +86,9 @@ cc_library(
     hdrs = [
         "flexible_circular_allocator_factory.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
         "error_code",
@@ -115,14 +102,10 @@ cc_library(
     hdrs = [
         "lockless_flexible_circular_allocator_factory.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
         "error_code",
@@ -136,14 +119,10 @@ cc_library(
     hdrs = [
         "flexible_circular_allocator_factory_interface.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
         "error_code",
@@ -159,17 +138,13 @@ cc_library(
     hdrs = [
         "error_code.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-baselibs//score/analysis:__subpackages__",
+        "@score_baselibs//score/analysis:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )

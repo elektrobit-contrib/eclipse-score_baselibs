@@ -10,8 +10,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "clock",
@@ -21,7 +22,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
 )
 
@@ -33,8 +34,8 @@ cc_gtest_unit_test(
     ],
     deps = [
         ":clock",
-        "@score-baselibs//score/concurrency/future",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/concurrency/future",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -45,7 +46,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
 )
 
@@ -60,7 +61,7 @@ cc_library(
     ],
     deps = [
         ":destruction_guard",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -71,12 +72,12 @@ cc_library(
     hdrs = ["interruptible_conditional_variable_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":clock",
         "@googletest//:gtest",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -99,11 +100,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":condition_variable",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -125,12 +126,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":destruction_guard",
         ":interruptible_wait",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -152,12 +153,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":condition_variable",
-        "@score-baselibs//score/os/utils/interprocess:interprocess_conditional_variable",
-        "@score-baselibs//score/os/utils/interprocess:interprocess_mutex",
+        "@score_baselibs//score/os/utils/interprocess:interprocess_conditional_variable",
+        "@score_baselibs//score/os/utils/interprocess:interprocess_mutex",
     ],
 )
 
@@ -176,12 +177,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":task_result",
-        "@score-baselibs//score/concurrency/future",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/concurrency/future",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -193,11 +194,11 @@ cc_library(
     hdrs = ["task_result_base.h"],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
-        "@score-baselibs//score/concurrency/future",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/concurrency/future",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -207,13 +208,13 @@ cc_library(
     hdrs = ["task_result.h"],
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":shared_task_result",
         ":task_result_base",
-        "@score-baselibs//score/concurrency/future",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/concurrency/future",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -224,12 +225,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":task_result_base",
-        "@score-baselibs//score/concurrency/future",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/concurrency/future",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -259,7 +260,7 @@ cc_library(
     hdrs = ["executor_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":executor",
@@ -274,13 +275,13 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":condition_variable",
         ":executor",
-        "@score-baselibs//score/os:pthread",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/os:pthread",
     ],
 )
 
@@ -292,7 +293,7 @@ cc_gtest_unit_test(
     ],
     deps = [
         ":thread_pool",
-        "@score-baselibs//score/concurrency:notification",
+        "@score_baselibs//score/concurrency:notification",
     ],
 )
 
@@ -303,13 +304,13 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":condition_variable",
         ":executor",
-        "@score-baselibs//score/os:pthread",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/os:pthread",
     ],
 )
 
@@ -331,12 +332,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":executor",
         ":interruptible_wait",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -361,12 +362,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":executor",
         ":interruptible_wait",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -391,11 +392,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":notification",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -438,8 +439,8 @@ cc_library(
         ":periodic_task",
         ":synchronized_queue",
         ":thread_pool",
-        "@score-baselibs//score/concurrency/timed_executor",
-        "@score-baselibs//score/concurrency/timed_executor:concurrent_timed_executor",
+        "@score_baselibs//score/concurrency/timed_executor",
+        "@score_baselibs//score/concurrency/timed_executor:concurrent_timed_executor",
     ],
 )
 
@@ -458,9 +459,9 @@ cc_unit_test_suites_for_host_and_qnx(
         ":synchronized_queue_test",
     ],
     test_suites_from_sub_packages = [
-        "@score-baselibs//score/concurrency/future:unit_test_suite",
-        "@score-baselibs//score/concurrency/timed_executor:unit_test_suite",
-        "@score-baselibs//score/concurrency/thread_load_tracking:unit_test_suite",
+        "@score_baselibs//score/concurrency/future:unit_test_suite",
+        "@score_baselibs//score/concurrency/timed_executor:unit_test_suite",
+        "@score_baselibs//score/concurrency/thread_load_tracking:unit_test_suite",
     ],
     visibility = [
         "//visibility:public",
